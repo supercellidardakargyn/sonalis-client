@@ -14,18 +14,27 @@ jobs:
     runs-on: windows-2025
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
 
       - name: Configure canary Release
-        run: cmake --preset canary-release
+        shell: cmd
+        run: |
+          call "%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat" -arch=x64 -host_arch=x64
+          cmake --preset canary-release
 
       - name: Build
-        run: cmake --build --preset canary-release
+        shell: cmd
+        run: |
+          call "%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat" -arch=x64 -host_arch=x64
+          cmake --build --preset canary-release
 
       - name: Test
-        run: ctest --preset canary-release
+        shell: cmd
+        run: |
+          call "%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat" -arch=x64 -host_arch=x64
+          ctest --preset canary-release
 
       - name: Record candidate hashes
         shell: pwsh
@@ -34,7 +43,7 @@ jobs:
           Get-FileHash build-canary-5.2.0/SonalisGuardianScanner.exe -Algorithm SHA256
 
       - name: Upload unsigned review candidate
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Sonalis-5.2.0-Windows-unsigned-review
           if-no-files-found: error
