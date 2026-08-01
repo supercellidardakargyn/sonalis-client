@@ -34,7 +34,7 @@ jobs:
           Get-FileHash build-canary-5.2.0/SonalisGuardianScanner.exe -Algorithm SHA256
 
       - name: Upload unsigned review candidate
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Sonalis-5.2.0-Windows-unsigned-review
           if-no-files-found: error
