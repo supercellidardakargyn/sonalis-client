@@ -18,25 +18,22 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Configure canary Release
-        shell: cmd
+      - name: Configure, build and test with MSVC x64
+        shell: pwsh
         run: |
-          call "%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat" -arch=x64 -host_arch=x64
-          set "CC=cl.exe"
-          set "CXX=cl.exe"
+          $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
+          $vsPath = & $vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          if (-not $vsPath) { throw 'Visual Studio C++ x64 toolchain was not found.' }
+          Import-Module (Join-Path $vsPath 'Common7\Tools\Microsoft.VisualStudio.DevShell.dll')
+          Enter-VsDevShell -VsInstallPath $vsPath -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          $env:CC = 'cl.exe'
+          $env:CXX = 'cl.exe'
           cmake --preset canary-release
-
-      - name: Build
-        shell: cmd
-        run: |
-          call "%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat" -arch=x64 -host_arch=x64
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           cmake --build --preset canary-release
-
-      - name: Test
-        shell: cmd
-        run: |
-          call "%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat" -arch=x64 -host_arch=x64
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           ctest --preset canary-release
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Record candidate hashes
         shell: pwsh
