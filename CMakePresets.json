@@ -1,0 +1,40 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "canary-release",
+      "displayName": "Sonalis Canary x64 Release",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build-canary-5.2.0",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "SONALIS_UPDATE_CHANNEL": "canary",
+        "SONALIS_REQUIRE_AUTHENTICODE": "OFF",
+        "SONALIS_STAGE_VERIFIED_EXE": "OFF",
+        "SONALIS_BUILD_TESTS": "ON"
+      }
+    },
+    {
+      "name": "stable-release",
+      "displayName": "Sonalis Stable x64 Release (signed)",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build-stable-5.2.0",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "SONALIS_UPDATE_CHANNEL": "stable",
+        "SONALIS_REQUIRE_AUTHENTICODE": "ON",
+        "SONALIS_AUTHENTICODE_CERT_SHA256": "$env{SONALIS_AUTHENTICODE_CERT_SHA256}",
+        "SONALIS_STAGE_VERIFIED_EXE": "ON",
+        "SONALIS_BUILD_TESTS": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    { "name": "canary-release", "configurePreset": "canary-release" },
+    { "name": "stable-release", "configurePreset": "stable-release", "targets": ["stage_client_executable"] }
+  ],
+  "testPresets": [
+    { "name": "canary-release", "configurePreset": "canary-release", "output": { "outputOnFailure": true } },
+    { "name": "stable-release", "configurePreset": "stable-release", "output": { "outputOnFailure": true } }
+  ]
+}

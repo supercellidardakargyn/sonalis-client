@@ -1,0 +1,45 @@
+name: Windows build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: windows-2025
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Configure canary Release
+        run: cmake --preset canary-release
+
+      - name: Build
+        run: cmake --build --preset canary-release
+
+      - name: Test
+        run: ctest --preset canary-release
+
+      - name: Record candidate hashes
+        shell: pwsh
+        run: |
+          Get-FileHash build-canary-5.2.0/Sonalis.exe -Algorithm SHA256
+          Get-FileHash build-canary-5.2.0/SonalisGuardianScanner.exe -Algorithm SHA256
+
+      - name: Upload unsigned review candidate
+        uses: actions/upload-artifact@v4
+        with:
+          name: Sonalis-5.2.0-Windows-unsigned-review
+          if-no-files-found: error
+          retention-days: 7
+          path: |
+            build-canary-5.2.0/Sonalis.exe
+            build-canary-5.2.0/SonalisGuardianScanner.exe
+

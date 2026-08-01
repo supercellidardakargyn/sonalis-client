@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>tr.sonalis.Sonalis</id>
+  <name>Sonalis</name>
+  <summary>Dusuk gecikmeli guvenli ses ve topluluk istemcisi</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary</project_license>
+  <description>
+    <p>Sonalis; yerel ses, sifreli mesajlasma ve topluluk kanallarini tek uygulamada birlestirir.</p>
+  </description>
+  <launchable type="desktop-id">sonalis.desktop</launchable>
+  <url type="homepage">https://sonalis.tr</url>
+  <provides><binary>sonalis-linux</binary></provides>
+  <releases><release version="5.2.0" date="2026-08-01"/></releases>
+</component>

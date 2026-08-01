@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Sonalis
+Comment=Düşük gecikmeli güvenli iletişim
+Exec=sonalis-linux
+Icon=sonalis
+Categories=Network;Chat;AudioVideo;
+Terminal=false
+StartupWMClass=tr.sonalis.desktop

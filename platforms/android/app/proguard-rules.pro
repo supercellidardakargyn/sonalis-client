@@ -1,0 +1,2 @@
+-keep class tr.sonalis.core.NativeCore { *; }
+-keep class tr.sonalis.core.NativeVoiceSession { *; }

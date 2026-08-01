@@ -1,0 +1,69 @@
+# Build trees and generated metadata
+build/
+build-*/
+out/
+dist/
+release-artifacts/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+CTestTestfile.cmake
+Testing/
+_deps/
+
+# Native build output
+*.exe
+*.dll
+*.lib
+*.exp
+*.obj
+*.o
+*.pdb
+*.ilk
+*.idb
+
+# Local signing material must never enter source control
+*.pfx
+*.p12
+*.pvk
+*.snk
+*.key
+*.pem
+*.mobileprovision
+*.jks
+*.keystore
+platforms/signing/private/
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+local.properties
+*.user
+*.suo
+.vs/
+.idea/
+.vscode/
+
+# Visual QA output (the product logo remains tracked explicitly)
+audit-*.png
+client-*.png
+horizon-*.png
+stage*.png
+*-second-monitor.png
+*-window-capture.png
+!logo.png
+
+# Platform packaging output
+*.apk
+*.aab
+*.ipa
+*.dmg
+*.pkg
+*.AppImage
+*.deb
+*.rpm
+.gradle/
+platforms/android/.cxx/
+platforms/android/app/build/
+DerivedData/

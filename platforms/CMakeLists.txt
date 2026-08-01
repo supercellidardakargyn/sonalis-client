@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 3.24)
+project(SonalisPlatforms LANGUAGES C CXX)
+
+if(APPLE)
+  add_subdirectory(macos)
+elseif(UNIX AND NOT ANDROID)
+  add_subdirectory(linux)
+else()
+  message(STATUS "Desktop platform shell is selected by Linux or macOS toolchain")
+endif()
